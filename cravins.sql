@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 03, 2023 at 03:58 PM
+-- Generation Time: Jul 04, 2023 at 01:16 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -96,6 +96,44 @@ CREATE DEFINER=`202011014`@`localhost` PROCEDURE `getDishes` ()   BEGIN
 SELECT * from tbl_dishes;
 END$$
 
+CREATE DEFINER=`202011014`@`localhost` PROCEDURE `getRandomDish` ()   BEGIN
+    -- Create a temporary table to store the randomly selected records
+    CREATE TEMPORARY TABLE RandomRecords (
+        fld_dishid VARCHAR(10),
+        fld_dishname VARCHAR(50),
+        fld_coursetype INT
+    );
+
+    -- Select one random record for each type
+    INSERT INTO RandomRecords (fld_dishid, fld_dishname, fld_coursetype)
+    SELECT fld_dishid, fld_dishname, fld_coursetype
+    FROM tbl_dishes
+    WHERE fld_coursetype = 0
+    ORDER BY RAND()
+    LIMIT 1;
+
+    INSERT INTO RandomRecords (fld_dishid, fld_dishname, fld_coursetype)
+    SELECT fld_dishid, fld_dishname, fld_coursetype
+    FROM tbl_dishes
+    WHERE fld_coursetype = 1
+    ORDER BY RAND()
+    LIMIT 1;
+
+    INSERT INTO RandomRecords (fld_dishid, fld_dishname, fld_coursetype)
+    SELECT fld_dishid, fld_dishname, fld_coursetype
+    FROM tbl_dishes
+    WHERE fld_coursetype = 2
+    ORDER BY RAND()
+    LIMIT 1;
+
+    -- Return the randomly selected records
+    SELECT *
+    FROM RandomRecords;
+
+    -- Drop the temporary table
+    DROP TABLE RandomRecords;
+END$$
+
 CREATE DEFINER=`202011014`@`localhost` PROCEDURE `getUser` (IN `var_userid` VARCHAR(10))   BEGIN
 SELECT * FROM tbl_users where fld_userid = var_userid;
 END$$
@@ -153,7 +191,16 @@ CREATE TABLE `tbl_dishes` (
 --
 
 INSERT INTO `tbl_dishes` (`fld_userid`, `fld_dishid`, `fld_image`, `fld_dishname`, `fld_recipes`, `fld_coursetype`) VALUES
-('69', '1', 0x6c696e6b6469746f6b756e77617269, 'Mas Pinaangas na Shabo', 'Maraming Shabo', 1);
+('69', '1', 0x6c696e6b6469746f6b756e77617269, 'Mas Pinaangas na Shabo', 'Maraming Shabo', 1),
+('69', '2', 0x3639696d6167656c696e6b, 'Pang Almusal 1', 'Maraming kuwan yung kuwan', 0),
+('69', '3', 0x3639696d6167656c696e6b, 'Pang Almusal 2', 'Maraming kuwan yung kuwan', 0),
+('69', '4', 0x3639696d6167656c696e6b, 'Pang Almusal 3', 'Maraming kuwan yung kuwan', 0),
+('69', '5', 0x3639696d6167656c696e6b, 'Pang Tanghalian 1', 'Maraming kuwan yung kuwan', 1),
+('69', '6', 0x3639696d6167656c696e6b, 'Pang Tanghalian 2', 'Maraming kuwan yung kuwan', 1),
+('69', '7', 0x3639696d6167656c696e6b, 'Pang Tanghalian 3', 'Maraming kuwan yung kuwan', 1),
+('69', '8', 0x3639696d6167656c696e6b, 'Pang Hapunan 1', 'Maraming kuwan yung kuwan', 2),
+('69', '9', 0x3639696d6167656c696e6b, 'Pang Hapunan 2', 'Maraming kuwan yung kuwan', 2),
+('69', '10', 0x3639696d6167656c696e6b, 'Pang Hapunan 3', 'Maraming kuwan yung kuwan', 2);
 
 -- --------------------------------------------------------
 

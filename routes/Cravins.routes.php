@@ -13,5 +13,6 @@ if($req[0] == 'updateuser'){ echo json_encode($gm->callRoutine("updateUser", $dt
 if($req[0] == 'getdishes'){ echo json_encode($gm->callRoutine("getDishes")); return;}
 if($req[0] == 'getdishbyname'){ echo json_encode($gm->callRoutine("getDishByName", $dt)); return;}
 if($req[0] == 'getdishbyrecipe'){ echo json_encode($gm->callRoutine("getDishByRecipe", $dt)); return;}
+if($req[0] == 'randomdish'){ echo json_encode($gm->callRoutine("getRandomDish")); return;}
 
 ?>
